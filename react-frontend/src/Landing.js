@@ -1,4 +1,6 @@
-import { useAuth } from "./context/AuthProvider";
+import { useAuth } from "./context/AuthProvider.js";
+import React from "react";
+
 export const Landing = () => {
   const { value } = useAuth();
   return (
