@@ -1,7 +1,7 @@
 import { Routes, Route, NavLink } from "react-router-dom";
 import { Landing } from "./Landing";
 import { Home } from "./Home";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 // import { fakeAuth } from "./utils/FakeAuth";
 // import { NavLink } from "react-router-dom";
@@ -9,6 +9,9 @@ import { useAuth } from "./context/AuthProvider";
 import { AuthProvider } from "./context/AuthProvider";
 import { Register } from "./Register";
 // import axios from 'axios';
+
+import React from "react";
+
 
 export const AuthContext = React.createContext(null);
 
