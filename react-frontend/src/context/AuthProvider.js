@@ -9,47 +9,13 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [token, setToken] = useState('');
 
-    // const [errorMessage, setErrorMessage] = useState("");
 
-    // const [user, setUser] = useState(
-        // {
-        //   username: "",
-        //   password: "",
-        // }
-    // );
-    // const [name, setName] = useState("");
-    // const [password, setPassword] = useState("");
-  
-    // const handleLogin = async () => {
-    //   const token = await fakeAuth();
-    //   setToken(token);
-    //   navigate("/landing");
-    // };
-    // const handleLogin = async (name, password) => {
-    //     // setUser(user);
-    //     setName(name);
-    //     setPassword(password);
-    //     if(name == "user" && password == "pass"){
-    //         const token = await fakeAuth();
-    //         setToken(token);
-    //         navigate("/landing");
-    //     }
-    //     else{
-    //        setErrorMessage("Incorrect username or password.");
-    //     }
-    // };
+  // const handleRegister = async () => {
+  //   try {
+  //     const 
+  //   }
+  // }
 
-
-    // const handleLogin = async (user) => {
-    //   try {
-    //     const response = await axios.post('http://localhost:5000/Login', user);
-    //     return response;
-    //  }
-    //  catch (error) {
-    //     console.log(error);
-    //     return false;
-    //  }
-    // };
 
     const handleLogin = async () => {
       try {
@@ -57,6 +23,10 @@ export const AuthProvider = ({ children }) => {
         console.log(response);
         if(response.status === 201){
           setToken(response.data.token);
+          
+          //document.cookie = `token=${token}`;
+          document.cookie = `token=${response.data.token}`;
+
           navigate('/landing');
         }
      }
@@ -67,6 +37,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     setToken(null);
+    document.cookie = `token=;max-age=300`
   };
 
   const value = {

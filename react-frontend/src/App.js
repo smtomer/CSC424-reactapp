@@ -13,49 +13,7 @@ import { Register } from "./Register";
 export const AuthContext = React.createContext(null);
 
 const App = () => {
-  // // const [token, setToken] = React.useState(null);
-  // const [token, setToken] = React.useState('login');
-
   
-  // const [user, setUser] = React.useState(null);
-  // const [user, setUser] = React.useState(
-  //   {
-  //     username: "",
-  //     password: "",
-  //   }
-  // );
-
-
-  // const handleLogin = async () => {
-  //   const token = await fakeAuth();
-  //   setToken(token);
-  // };
-  // const handleLogin = async (user) => {
-  //   try {
-  //     const response = await axios.post('http://localhost:5000/Login', user);
-  //     return response;
-  //  }
-  //  catch (error) {
-  //     console.log(error);
-  //     return false;
-  //  }
-  // };
-  // const handleLogin = async (user) => {
-  //   try {
-  //     const token = await axios.post('http://localhost:5000/Login', user);
-  //     return token;
-  //  }
-  //  catch (error) {
-  //     console.log(error);
-  //     return false;
-  //  }
-  // };
-
-
-  // const handleLogout = () => {
-  //   setToken(null);
-  // };
-
 
   return (
     <AuthProvider>
