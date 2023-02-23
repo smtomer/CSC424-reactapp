@@ -13,16 +13,38 @@ export const Register = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/account/register', {username, phoneNumber, password, confirmPassword});
-            console.log(response)
+            // value.username = username
+            // value.password = password
+            // value.confirmPassword = confirmPassword
+            // value.phoneNumber = phoneNumber
+            // value.onRegister();
+            let user = {
+                username: username,
+                phoneNumber: phoneNumber,
+                password: password,
+                confirmPassword: confirmPassword
+            } 
+            
+            // alert("I1");
 
-            //value.username = username
-            //value.password = password
-            //value.onLogin();
+            // const response = await axios.post('https://localhost:5000/account/register', {username, phoneNumber, password, confirmPassword});
+            // const response = await axios.post('https://localhost:5000/account/register', {value});
+            const response = await axios.post('https://localhost:5000/account/register', {user});
+            console.log(response);
+
+            // alert("I3");
+
+            if(response.status === 201){
+                value.onRegister(response.data);
+            }
+            else{
+                alert("Register failed.");
+            }
+
 
 
         } catch (error) {
-            alert(JSON.stringify(error.response.data.message))
+            alert(JSON.stringify(error.response.data.message));
         }
     }
 

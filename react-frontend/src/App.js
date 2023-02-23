@@ -21,7 +21,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Navigation />
-      <div class="center">
+      <div className="center">
         <h1>React Router</h1>
       </div>
       <Routes>

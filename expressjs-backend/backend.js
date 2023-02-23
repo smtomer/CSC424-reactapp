@@ -14,20 +14,29 @@ app.use(express.json());
 
 
 
-//app.post('/account/login', async (req, res) => {
-app.post('/account/login', jwtToken.authenticateToken, async (req, res) => {
+app.post('/account/login', async (req, res) => {
+// app.post('/account/login', jwtToken.authenticateToken, async (req, res) => {
 
     try{
-        const Username = req.body.value.username;
-        const Password = req.body.value.password;
+        const username = req.body.value.username;
+        const password = req.body.value.password;
         //let user = findUser(username, password);
-        const user = await userServices.findUser(Username, Password);
+        //const user = await userServices.findUser(username, password);
+        const user = await userServices.loginCheck(username, password);
+
         if(user){
             //const token = generateAccessToken({ username: req.body.username });
            // res.json(token);
             //const token = '2342f2f1d131rf12';
             //// res.status(201).send(user);
-            res.status(201).json({token, Username, Password});
+
+            const token = jwtToken.generateAccessToken({ username: username });
+
+            // res.status(201).json({token, Username, Password});
+            // res.status(201).json({token, username, password});
+            res.status(201).send({username, password, token});
+            // res.status(201).send(token);
+
         }
         else{
             res.status(400).end();
@@ -39,11 +48,22 @@ app.post('/account/login', jwtToken.authenticateToken, async (req, res) => {
 });
 
 app.post('/account/register', async (req, res) => {
-    //const u = req.body;
+    // const User = req.body;
 
-    const Username = req.body.username;
-    const Password = req.body.password;
-    const confirmPassword = req.body.confirmPassword;
+    // const Username = req.body.value.username;
+    // const PhoneNumber = req.body.value.phoneNumber
+    // const Password = req.body.value.password;
+    // const confirmPassword = req.body.value.confirmPassword;
+
+    // const Username = req.body.username;
+    // const PhoneNumber = req.body.phoneNumber
+    // const Password = req.body.password;
+    // const confirmPassword = req.body.confirmPassword;
+
+    const Username = req.body.user.username;
+    const PhoneNumber = req.body.user.phoneNumber
+    const Password = req.body.user.password;
+    const confirmPassword = req.body.user.confirmPassword;
 
     if(Password != confirmPassword){
         res.status(400).json({message: 'Passwords do not match'});
@@ -58,24 +78,35 @@ app.post('/account/register', async (req, res) => {
         res.status(400).json({message: 'Passwords require a special character'});
     }
     else {
+        
+        // alert("I11");
         //let user = findUserByUsername(Username);
-        const user = await userServices.findUserByUsername(Username);
-        if(user){
+        // const user = await userServices.findUserByUsername(Username);
+        const user = await userServices.userExistsCheck(Username);
+        
+        // alert("I12");
+
+        if(user === true){
             res.status(400).json({message: 'Username already exists.'});
         }
         else{
             ////account['account_list'].push({username: Username, password: Password});
             ////res.status(201).json(account);
-
-
-            const Token = generateAccessToken({ username: req.body.username });
+            
+            // alert("I13");
+            let Token = jwtToken.generateAccessToken({ Username });
+            // const Token = jwtToken.generateAccessToken({ username: Username });
+            // const Token = jwtToken.generateAccessToken({ username: req.body.value.username });
             //res.json(token);
 
-
-            const newUser = await userServices.addUser({
-                username: Username, password: Password, token: Token});
-            // const newUser = await userServices.addUser(u);
-            res.status(201).send(newUser);
+            // alert("I14");
+            // const newUser = await userServices.addUser({
+            //     username: Username, password: Password, phoneNumber: PhoneNumber, token: Token});
+            // const newUser = await userServices.addUser(User);
+            const newUser = await userServices.addUser({Username, Password, PhoneNumber});
+            // alert("I15");
+            // res.status(201).send(newUser);
+            res.status(201).send(Token);
         }
         
     }

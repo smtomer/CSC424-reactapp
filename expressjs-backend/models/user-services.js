@@ -4,20 +4,30 @@ mongoose.set("debug", true);
 mongoose.set('strictQuery',false);
 
 mongoose
-    .connect("mongodb://localhost:27017/users", {
-    //.connect("mongodb://127.0.0.1:27017/users", {
+    // .connect("mongodb://localhost:27017/users", {
+    .connect("mongodb://127.0.0.1:27017/users", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .catch((error) => console.log(error));
 
 
+async function loginCheck(username, password) {
+    ////return account['account_list'].find( (user) => 
+    ////user['username'] === username && user['password'] === password);
+    
+    return (await userModel.find({username: username, password: password}))[0] !==  undefined;
+}
 
 async function findUser(username, password) {
     ////return account['account_list'].find( (user) => 
     ////user['username'] === username && user['password'] === password);
     
     return await userModel.find({username: username, password: password});
+}
+
+async function userExistsCheck(username){
+  return (await userModel.find({ username: username }))[0] !== undefined;
 }
 
 async function findUserByUsername(username) {
@@ -84,3 +94,5 @@ exports.findUser = findUser;
 exports.findUserByUsername = findUserByUsername;
 exports.addUser = addUser;
 exports.getAllUsers = getAllUsers;
+exports.userExistsCheck = userExistsCheck;
+exports.loginCheck = loginCheck;

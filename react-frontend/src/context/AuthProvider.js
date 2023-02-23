@@ -11,16 +11,34 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState('');
 
 
-  // const handleRegister = async () => {
-  //   try {
-  //     const 
-  //   }
-  // }
 
+  const handleRegister = async (token) => {
+    // try {
+    //   const response = await axios.post('https://localhost:5000/account/register', {value});
+    //   console.log(response);
+    //   if(response.status === 201){
+        // setToken(response.data.token);
+
+
+        // alert("I2");
+
+
+        setToken(token);
+
+        // document.cookie = `token=${response.data.token}`;
+        document.cookie = `token=${token}`;
+        navigate('/landing');
+      // }
+    // }
+    // catch (error) {
+    //   // alert("Failed Registration.");
+    //   alert(JSON.stringify(error.response.data.message))
+    // }
+  };
 
     const handleLogin = async () => {
       try {
-        const response = await axios.post('http://localhost:5000/account/login', {value});
+        const response = await axios.post('https://localhost:5000/account/login', {value});
         console.log(response);
         if(response.status === 201){
           setToken(response.data.token);
@@ -32,7 +50,8 @@ export const AuthProvider = ({ children }) => {
         }
      }
      catch (error) {
-      alert("Incorrect username or password.");
+      // alert("Incorrect username or password.");
+      alert(JSON.stringify(error.response.data.message))
      }
     };
 
@@ -43,8 +62,10 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     token,
+    setToken,
     onLogin: handleLogin,
     onLogout: handleLogout,
+    onRegister: handleRegister,
     // errorMessage,
   };
 
