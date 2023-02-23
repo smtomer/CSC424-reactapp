@@ -4,11 +4,13 @@ const port = 5000;
 const cors = require('cors');
 const helmet = require('helmet');
 
-const userServices = require('./models/user-services')
+const userServices = require('./models/user-services');
 const jwtToken = require('./models/jwt-token');
 
 const https = require('https');
 const fs = require('fs');
+
+const { body, validationResult } = require('express-validator');
 
 app.use(cors());
 app.use(express.json());
@@ -119,7 +121,15 @@ app.get('/account/users', async (req, res) => {
     res.status(201).send(result);
 });
 
-app.get('account/users/:username', async (req, res) => {
+app.get('account/users/:username', [
+    body('username').isAlphanumeric().isLength({ min: 1, max: 20 })
+], async (req, res) => {
+
+    const errors= validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(405).json({ errors: errors.array() });
+    }
+
     const Username = req.params['username'];
     ////let result = findUserByUsername(username);
     const result = await userServices.findUserByUsername(Username);
@@ -129,9 +139,9 @@ app.get('account/users/:username', async (req, res) => {
     else{
         ////result = {account_list: result};
         ////res.send(result);
-        result.username = encodeURI(result.username);
-        result.password = encodeURI(result.password);
-        result.phoneNumber = encodeURI(result.phoneNumber);
+        // result.username = encodeURI(result.username);
+        // result.password = encodeURI(result.password);
+        // result.phoneNumber = encodeURI(result.phoneNumber);
         res.status(201).send(result);
     }
 });
