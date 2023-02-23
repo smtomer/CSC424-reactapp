@@ -129,6 +129,9 @@ app.get('account/users/:username', async (req, res) => {
     else{
         ////result = {account_list: result};
         ////res.send(result);
+        result.username = encodeURI(result.username);
+        result.password = encodeURI(result.password);
+        result.phoneNumber = encodeURI(result.phoneNumber);
         res.status(201).send(result);
     }
 });
