@@ -1,7 +1,7 @@
 import { Routes, Route, NavLink } from "react-router-dom";
 import { Landing } from "./Landing";
 import { Home } from "./Home";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 // import { fakeAuth } from "./utils/FakeAuth";
 // import { NavLink } from "react-router-dom";
@@ -10,57 +10,18 @@ import { AuthProvider } from "./context/AuthProvider";
 import { Register } from "./Register";
 // import axios from 'axios';
 
+import React from "react";
+
+
 export const AuthContext = React.createContext(null);
 
 const App = () => {
-  // // const [token, setToken] = React.useState(null);
-  // const [token, setToken] = React.useState('login');
-
   
-  // const [user, setUser] = React.useState(null);
-  // const [user, setUser] = React.useState(
-  //   {
-  //     username: "",
-  //     password: "",
-  //   }
-  // );
-
-
-  // const handleLogin = async () => {
-  //   const token = await fakeAuth();
-  //   setToken(token);
-  // };
-  // const handleLogin = async (user) => {
-  //   try {
-  //     const response = await axios.post('http://localhost:5000/Login', user);
-  //     return response;
-  //  }
-  //  catch (error) {
-  //     console.log(error);
-  //     return false;
-  //  }
-  // };
-  // const handleLogin = async (user) => {
-  //   try {
-  //     const token = await axios.post('http://localhost:5000/Login', user);
-  //     return token;
-  //  }
-  //  catch (error) {
-  //     console.log(error);
-  //     return false;
-  //  }
-  // };
-
-
-  // const handleLogout = () => {
-  //   setToken(null);
-  // };
-
 
   return (
     <AuthProvider>
       <Navigation />
-      <div class="center">
+      <div className="center">
         <h1>React Router</h1>
       </div>
       <Routes>

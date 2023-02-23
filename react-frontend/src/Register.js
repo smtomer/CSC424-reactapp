@@ -1,17 +1,50 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from "./context/AuthProvider";
+
 
 export const Register = () => {
+    const { value } = useAuth();
+    
     const [username, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/account/register', {username, password, confirmPassword});
-            console.log(response)
+            // value.username = username
+            // value.password = password
+            // value.confirmPassword = confirmPassword
+            // value.phoneNumber = phoneNumber
+            // value.onRegister();
+            let user = {
+                username: username,
+                phoneNumber: phoneNumber,
+                password: password,
+                confirmPassword: confirmPassword
+            } 
+            
+            // alert("I1");
+
+            // const response = await axios.post('https://localhost:5000/account/register', {username, phoneNumber, password, confirmPassword});
+            // const response = await axios.post('https://localhost:5000/account/register', {value});
+            const response = await axios.post('https://localhost:5000/account/register', {user});
+            console.log(response);
+
+            // alert("I3");
+
+            if(response.status === 201){
+                value.onRegister(response.data);
+            }
+            else{
+                alert("Register failed.");
+            }
+
+
+
         } catch (error) {
-            alert(JSON.stringify(error.response.data.message))
+            alert(JSON.stringify(error.response.data.message));
         }
     }
 
@@ -25,6 +58,11 @@ export const Register = () => {
                     type="text" 
                     name="Username" 
                     value={username} onChange={e => setName(e.target.value)}/>
+                <p>Phone Number</p>
+                <input 
+                    type="text" 
+                    name="Phone Number" 
+                    value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)}/>
                 <p>Password</p>
                 <input 
                     type="password" 
