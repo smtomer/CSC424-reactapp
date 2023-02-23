@@ -130,19 +130,20 @@ app.get('account/users/:username', [
         return res.status(405).json({ errors: errors.array() });
     }
 
-    const Username = req.params['username'];
+    let Username = req.params['username'];
     ////let result = findUserByUsername(username);
     const result = await userServices.findUserByUsername(Username);
+    
     if(result === undefined || result.length == 0){
         res.status(404).send('Resource not found.');
     }
     else{
         ////result = {account_list: result};
         ////res.send(result);
-        // result.username = encodeURI(result.username);
-        // result.password = encodeURI(result.password);
-        // result.phoneNumber = encodeURI(result.phoneNumber);
-        res.status(201).send(result);
+        let encodedResult = encodeURI(result);
+        res.status(201).send(encodedResult);
+
+        // res.status(201).send(result);
     }
 });
 
