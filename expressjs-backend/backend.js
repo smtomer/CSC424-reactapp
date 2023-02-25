@@ -23,20 +23,10 @@ app.post('/account/login', async (req, res) => {
     try{
         const username = req.body.value.username;
         const password = req.body.value.password;
-        //let user = findUser(username, password);
-        //const user = await userServices.findUser(username, password);
+
         const user = await userServices.loginCheck(username, password);
-
         if(user){
-            //const token = generateAccessToken({ username: req.body.username });
-           // res.json(token);
-            //const token = '2342f2f1d131rf12';
-            //// res.status(201).send(user);
-
             const token = jwtToken.generateAccessToken({ username: username });
-
-            // res.status(201).json({token, Username, Password});
-            // res.status(201).json({token, username, password});
             res.status(201).send({username, password, token});
             // res.status(201).send(token);
 
@@ -51,27 +41,18 @@ app.post('/account/login', async (req, res) => {
 });
 
 app.post('/account/register', async (req, res) => {
-    // const User = req.body;
-
-    // const Username = req.body.value.username;
-    // const PhoneNumber = req.body.value.phoneNumber
-    // const Password = req.body.value.password;
-    // const confirmPassword = req.body.value.confirmPassword;
-
-    // const Username = req.body.username;
-    // const PhoneNumber = req.body.phoneNumber
-    // const Password = req.body.password;
-    // const confirmPassword = req.body.confirmPassword;
+    const User = req.body.user;
 
     const Username = req.body.user.username;
-    const PhoneNumber = req.body.user.phoneNumber
+    //const PhoneNumber = req.body.user.phoneNumber
     const Password = req.body.user.password;
-    const confirmPassword = req.body.user.confirmPassword;
+    //const confirmPassword = req.body.user.confirmPassword;
 
-    if(Password != confirmPassword){
-        res.status(400).json({message: 'Passwords do not match'});
-    }
-    else if(!containsUppercase(Password)){
+    // if(Password != confirmPassword){
+    //     res.status(400).json({message: 'Passwords do not match'});
+    // }
+    //else if(!containsUppercase(Password)){
+    if(!containsUppercase(Password)){
         res.status(400).json({message: 'Passwords require an uppercase letter'});
     }
     else if(!containsNumbers(Password)){
@@ -81,43 +62,25 @@ app.post('/account/register', async (req, res) => {
         res.status(400).json({message: 'Passwords require a special character'});
     }
     else {
-        
-        // alert("I11");
-        //let user = findUserByUsername(Username);
-        // const user = await userServices.findUserByUsername(Username);
         const user = await userServices.userExistsCheck(Username);
-        
-        // alert("I12");
-
         if(user === true){
             res.status(400).json({message: 'Username already exists.'});
         }
         else{
-            ////account['account_list'].push({username: Username, password: Password});
-            ////res.status(201).json(account);
-            
-            // alert("I13");
             let Token = jwtToken.generateAccessToken({ Username });
-            // const Token = jwtToken.generateAccessToken({ username: Username });
-            // const Token = jwtToken.generateAccessToken({ username: req.body.value.username });
-            //res.json(token);
-
-            // alert("I14");
-            // const newUser = await userServices.addUser({
-            //     username: Username, password: Password, phoneNumber: PhoneNumber, token: Token});
-            // const newUser = await userServices.addUser(User);
-            const newUser = await userServices.addUser({Username, Password, PhoneNumber});
-            // alert("I15");
-            // res.status(201).send(newUser);
+            const newUser = await userServices.addUser(User);
             res.status(201).send(Token);
         }
-        
     }
 });
 
 app.get('/account/users', async (req, res) => {
     ////res.send(account);
-    const result = await userServices.getAllUsers();
+    // const result = await userServices.getAllUsers();
+    var allInfo = await userServices.getAllUsers();
+    var result = allInfo.map(user => {
+        return {name: user.username, phoneNumber: user.phoneNumber}
+    })
     res.status(201).send(result);
 });
 

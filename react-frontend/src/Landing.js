@@ -10,7 +10,7 @@ export const Landing = () => {
   const [tableUsers, setTableUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/account/users'
+    axios.get('https://localhost:5000/account/users'
     ).then( response => {
       if(response){
         setTableUsers(response.data);
@@ -22,7 +22,9 @@ export const Landing = () => {
     <>
       <h2>Landing (Protected)</h2>
       <div> Authenticated as {value.token}</div>
-      <Table userContacts={tableUsers} />
+      <Table contacts={tableUsers} />
     </>
   );
 };
+
+export default Landing;
