@@ -4,8 +4,7 @@ import { useAuth } from "./context/AuthProvider";
 
 
 export const Register = () => {
-    const { value } = useAuth();
-    
+    const { value } = useAuth(); 
     const [username, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,36 +12,26 @@ export const Register = () => {
 
     const handleSubmit = async () => {
         try {
-            // value.username = username
-            // value.password = password
-            // value.confirmPassword = confirmPassword
-            // value.phoneNumber = phoneNumber
-            // value.onRegister();
+            if(password === confirmPassword){
+            
             let user = {
                 username: username,
                 phoneNumber: phoneNumber,
                 password: password,
-                confirmPassword: confirmPassword
+                //confirmPassword: confirmPassword
             } 
-            
-            // alert("I1");
-
-            // const response = await axios.post('https://localhost:5000/account/register', {username, phoneNumber, password, confirmPassword});
-            // const response = await axios.post('https://localhost:5000/account/register', {value});
             const response = await axios.post('https://localhost:5000/account/register', {user});
             console.log(response);
-
-            // alert("I3");
-
             if(response.status === 201){
                 value.onRegister(response.data);
             }
             else{
                 alert("Register failed.");
             }
-
-
-
+        }
+        else{
+            alert("Passwords do not match.");
+        }
         } catch (error) {
             alert(JSON.stringify(error.response.data.message));
         }
@@ -82,3 +71,4 @@ export const Register = () => {
     );
 };
 
+export default Register;

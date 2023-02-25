@@ -1,22 +1,7 @@
 import React from "react";
 
-function tableHeader() {
-return (
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Phone Number
-            </th>
-        </tr>
-    </thead>
-    );
-}
-
-function tableBody ({userContacts}) {
-    const rows = userContacts.map((row, i) => {
+function TableBody ({contacts}) {
+    const rows = contacts.map((row, i) => {
         return (
             <tr key = {i}>
                 <td>
@@ -35,11 +20,28 @@ function tableBody ({userContacts}) {
     );
 }
 
-function Table({userContacts}) {
+function TableHeader() {
+return (
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Phone Number
+            </th>
+        </tr>
+    </thead>
+    );
+}
+
+
+
+function Table({contacts}) {
     return (
         <table>
-            <tableHeader />
-            <tableBody userContacts={userContacts} />
+            <TableHeader />
+            <TableBody contacts={contacts} />
         </table>
     );
 }
